@@ -5,14 +5,14 @@ import string
 import requests
 import secrets
 
-def spam_discord_webhook(webhook_url, message, count, delay):
-    data = {"content": message}
-    for _ in range(count):
+def spam_discord_webhook(webhook_url, message, count, delay, username):
+    for i in range(1, count + 1):
+        data = {"content": message, "username": f"{username} {i}"}
         response = requests.post(webhook_url, json=data)
         if response.status_code == 204:
-            print("\033[92mMessage sent successfully!\033[0m")  # Yeşil renk
+            print(f"\033[92mMessage {i} sent successfully!\033[0m")  # Yeşil renk
         else:
-            print("\033[91mFailed to send message.\033[0m")  # Kırmızı renk
+            print(f"\033[91mFailed to send message {i}.\033[0m")  # Kırmızı renk
         time.sleep(delay)
 
 def generate_tiktok_account():
@@ -77,7 +77,8 @@ def main():
             message = input("\033[93mGönderilecek mesajı girin:\033[0m ")  # Sarı renk
             count = int(input("\033[93mKaç kez gönderileceğini girin:\033[0m "))  # Sarı renk
             delay = int(input("\033[93mGecikme süresini saniye cinsinden girin:\033[0m "))  # Sarı renk
-            spam_discord_webhook(webhook_url, message, count, delay)
+            username = input("\033[93mKullanıcı adını girin:\033[0m ")  # Sarı renk
+            spam_discord_webhook(webhook_url, message, count, delay, username)
         elif choice == '2':
             # Diğer işlevler buraya gelecek
             pass
